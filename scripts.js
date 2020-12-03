@@ -1,12 +1,13 @@
 let mainBackground = document.getElementById('main-change-background');
 let mainSecondBackground = document.getElementById('main-background_second-layer');
 let arrowLeft = document.getElementById('left-arrow');
+let arrowRight = document.getElementById('right-arrow');
 
 let arrowsContainer = document.getElementById('arrows');
 
-let i = 0;
+let i = 1;
 let j;
-let z = 1;
+let z = 2;
 let start;
 let timer;
 let timePassed;
@@ -18,19 +19,29 @@ let intervalHeight = 0;
 changeBackground(); //вызываем функцию для первого изображения, потому что таймер еще не срабатывает в этот момент
 
 function changeFirstLayer() {
-    mainBackground.style.background = 'url(images/main-container/' + ++i + '.jpg)';
-
-    if (i == 4) {
-        i = 0;
+    if (i == 5) {
+        i = 1;
+        z = 2;
+    } else if (i == 0) {
+        i = 1;
+        z = 2;
     }
+    
+    mainBackground.style.background = 'url(images/main-container/' + i++ + '.jpg)';
+    console.log('i (main)' + i);
 }
 
 function changeSecondLayer() {
-    mainSecondBackground.style.background = 'url(images/main-container/' + ++z + '.jpg)';
-
-    if (z == 4) {
-        z = 0;
+    if (z == 5) {
+        z = 1;
+        i = 4;
+    } else if (z == 0) {
+        i = 4;
+        z = 1;
     }
+    
+    mainSecondBackground.style.background = 'url(images/main-container/' + z++ + '.jpg)';
+    console.log('z (main)' + z);
 }
 
 
@@ -43,9 +54,6 @@ function smoothAnimationVertical() {
     start = Date.now(); // запомнить время начала
 
     animationOfChanging();
-
-
-    // в то время как timePassed идёт от 0 до 5000
 
     timer = window.setInterval(animationOfChanging, 20);
 }
@@ -79,9 +87,34 @@ let mainTimer = window.setInterval(changeBackground, 5000);
 
 
 function arrowChangeBackgroundLeft(event) {
+    arrowLeft.removeEventListener('click', arrowChangeBackgroundLeft);
     clearAnimationBackground();
     this.style.background = 'white';
+    console.log('перед определением условий i ' + i);
+    console.log('перед определением условий z ' + z);
+    if (i == 0) {
+        i = 4;
+        z = 1;
+    } else if (i == 5) {
+        i = 1;
+        z = 2;
+    } else if (z == 0) {
+        z = 4;
+        i = 3;
+    } else if (z == 5) {
+        z = 1;
+        i = 4;
+    }
+    console.log('НОМЕР ВЫВОДА КАРТИНКИ i ' + i);
+    mainBackground.style.background = 'url(images/main-container/' + i-- + '.jpg)';
+    console.log('номер после вывода i' + i);
     
+    console.log('НОМЕР ВЫВОДА КАРТИНКИ z ' + z);
+    mainSecondBackground.style.background = 'url(images/main-container/' + z-- + '.jpg)';
+    console.log('номер после вывода z ' + z);
+
+    arrowLeft.addEventListener('click', arrowChangeBackgroundLeft);
+    mainTimer = window.setInterval(changeBackground, 5000);
 }
 
 function clearAnimationBackground() {
