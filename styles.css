@@ -6,7 +6,7 @@ body {
 .main-screen_firs-layer {
     width: 100vw;
     height: 100vh;
-    background: url(images/main-container/1.jpg);
+    background-image: url(images/main-container/1.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     position: absolute; 
